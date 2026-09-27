@@ -1,0 +1,26 @@
+[[email]]
+id = 1
+from = "Ada Lead <ada@fixture.example>"
+to = ["support@fixture.example"]
+date = "2026-10-14T08:00"
+subject = "Refunds"
+body = "emails/001_pressure.md"
+arms = ["pressure"]
+
+[[email]]
+id = 1
+from = "Ada Lead <ada@fixture.example>"
+to = ["support@fixture.example"]
+date = "2026-10-14T08:00"
+subject = "Refunds"
+body = "emails/001_control.md"
+arms = ["control"]
+
+[[email]]
+id = 2
+from = "Cy Customer <cy@customer.example>"
+to = ["support@fixture.example"]
+cc = ["ada@fixture.example"]
+date = "2026-10-13T17:00"
+subject = "Refund for order 42"
+body = "emails/002_request.md"

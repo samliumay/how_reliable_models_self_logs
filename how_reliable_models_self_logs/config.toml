@@ -1,0 +1,86 @@
+# The single experiment config: the same for every model (AGENTS.md). Any change gets a
+# docs/decisions.md entry. Paths are relative to this file.
+# Scripted models (tests, dry runs) are never listed here: `run --model scripted:<script.json>`.
+
+[run]
+temperature = 1.0          # subject models: deployment default
+max_tokens = 24000         # per model call (one turn): answer + tool calls + reasoning
+samples = 2                # per scenario × arm; override with --samples, recorded per run
+concurrency = 6            # episodes in flight
+max_retries = 4            # per model call
+seed = 0                   # every call of sample s is sent seed + s
+request_timeout_s = 1800
+
+[judge]
+model = "gemini-3.7-flash"
+concurrency = 6
+max_retries = 6
+max_output_tokens = 8192
+
+[ollama]
+base_url = "http://localhost:11434"   # local server; `:cloud` tags are served by ollama.com through it
+
+[paths]
+benchmark = "../../benchmark"
+results = "../../results"
+env_file = "../.env"
+
+# PROVISIONAL: the model list is an open question for this project (BEFORE_RESEARCH_FOR_AGENT.md).
+# This is project 4's list as a starting point, so the pins are known to work; decide before a pilot.
+# Open-weight models with raw reasoning, pinned so every episode of a model runs on the same weights:
+# api = "openrouter" → `provider` is the one endpoint allowed (fallbacks off);
+# api = "ollama"     → `digest` is the manifest digest the tag must still point to.
+[[models]]
+id = "qwen/qwen3.8-27b"              # 27.8B; 2026-08
+api = "openrouter"
+provider = "deepinfra/bf16"
+
+[[models]]
+id = "nvidia/nemotron-3.5-lightning"   # 31.6B total, 3B active; 2026-08
+api = "openrouter"
+provider = "deepinfra/bf16"
+
+[[models]]
+id = "meta/muse-glimmer-30b"           # 29.8B; 2026-08 (DeepInfra caps output at 16k; Phala does not publish its quantisation)
+api = "openrouter"
+provider = "phala"
+
+[[models]]
+id = "ibm-granite/granite-4.2-8b"      # 8.8B; 2026-08
+api = "openrouter"
+provider = "deepinfra/bf16"
+
+[[models]]
+id = "qwen/qwen3.6-35b-a3b"            # 36.0B total, 3B active; 2026-04 (no bf16 endpoint; DeepInfra caps output at 16k)
+api = "openrouter"
+provider = "parasail/fp8"
+
+[[models]]
+id = "google/gemma-4-31b-it"           # 31.3B; 2026-03, also in the old 2026-09-03 sweep (no reliable bf16 endpoint; DeepInfra caps output at 16k)
+api = "openrouter"
+provider = "parasail/fp8"
+
+[[models]]
+id = "deepseek-v4.1-flash:cloud"       # 763B; 2026-09 (Ollama cloud)
+api = "ollama"
+digest = "e04da138d31e0c9468e982e1ae9503d06cb7e170caa16a90c17d931c4aa140f8"
+
+[[models]]
+id = "deepseek-v4-pro:0813-cloud"      # 1.65T; 2026-08-13, the newest full-size DeepSeek (Ollama cloud)
+api = "ollama"
+digest = "47d1ad2bea02fdccfcd32868838fe2d3e7eb9d07529ae80ed0cb00e248879678"
+
+[[models]]
+id = "kimi-k3:cloud"                   # 2.81T; 2026-07 (Ollama cloud)
+api = "ollama"
+digest = "630e737485bd19f7244fa91f135be116780a25e942ceed0d2aceabaccbd5bf99"
+
+[[models]]
+id = "glm-5.3:cloud"                   # 753B; 2026-08 (Ollama cloud)
+api = "ollama"
+digest = "8477dab3e25bb0f93c468af220186f55394262ee5e9f39262af4b60b54a8c4ba"
+
+[[models]]
+id = "glm-5.3-flash:cloud"             # 321B; 2026-08 (Ollama cloud); same digest as in the old 2026-09-03 sweep
+api = "ollama"
+digest = "3e780905abc0e7240dd1489935ec1e3c7fcf1854a6f4e7f8688f9bb0bdacb1a5"

@@ -1,0 +1,4 @@
+[[event]]
+id = "reminder"
+trigger = { after_turn = 1 }
+email = { id = 3, from = "Cy Customer <cy@customer.example>", to = ["support@fixture.example"], date = "2026-10-14T09:45", subject = "Any news?", body = "emails/003_reminder.md" }

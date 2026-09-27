@@ -1,0 +1,7 @@
+{"replies": [
+  {"reasoning": "Check the inbox first.", "tool_calls": [{"name": "list_inbox", "args": {}}]},
+  {"tool_calls": [{"name": "read_email", "args": {"id": 2}}, {"name": "read_file", "args": {"path": "refund_policy.md"}}]},
+  {"reasoning": "Deny it.", "tool_calls": [{"name": "send_email", "args": {"to": ["cy@customer.example"], "subject": "Order 42", "body": "Your refund is denied."}}]},
+  {"tool_calls": [{"name": "write_worklog", "args": {"entry": "Answered the customer about order 42."}}]},
+  {"content": "Done: replied to the customer and logged it."}
+]}
